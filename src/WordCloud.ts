@@ -1647,6 +1647,40 @@ export class WordCloud implements IVisual {
             WordCloudSettings.enumerateObjectInstances(settings, options);
         switch (options.objectName) {
             case "dataPoint": {
+
+                debugger;
+
+                let defaultColor = (instanceEnumeration as VisualObjectInstanceEnumerationObject).instances[0];
+
+                defaultColor = {...
+                    defaultColor,
+/*
+                    properties: {
+
+                        //defaultColor: {
+                            fill: {
+                                solid: {
+                                    color: defaultColor
+                                }
+                            }
+                        }
+                    },
+
+  */
+                   propertyInstanceKind: {
+                        defaultColor: VisualEnumerationInstanceKinds.ConstantOrRule
+                },
+                    //altConstantValueSelector: this.data.dataPoints[0].selectionIds[0].getSelector(),  //..barDataPoint.selectionId.getSelector(),
+                    selector: dataViewWildcard.createDataViewWildcardSelector(dataViewWildcard.DataViewWildcardMatchingOption.InstancesAndTotals)
+    
+
+                };
+          
+
+                (instanceEnumeration as VisualObjectInstanceEnumerationObject).instances[0] = defaultColor;
+       
+
+               
                 if (this.data && this.data.dataPoints) {
                     this.enumerateDataPoint(options, instanceEnumeration);
                 }
@@ -1686,7 +1720,8 @@ export class WordCloud implements IVisual {
                     selector: ColorHelper.normalizeSelector(
                         item.selectionIds[0].getSelector(),
                         false),
-                    properties: { fill: { solid: { color: item.color } } }
+                    properties: { fill: { solid: { color: item.color } } },
+                    altConstantValueSelector: item.selectionIds[0].getSelector(),  //..barDataPoint.selectionId.getSelector(),
                 };
                 this.addAnInstanceToEnumeration(instanceEnumeration, instance);
             }
